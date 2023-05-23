@@ -58,4 +58,15 @@ function excluiUsuario($conexao, $id){
 
 
 
+//Usada em usuario-atualiza.php
+// Função para carregamento/exeibição dos de um USUÁRIO
+function lerUmUsuario ($conexao, $id){
+    $sql = "SELECT * FROM usuarios WHERE id = $id";
+    //Comando SQL para carregamento dos dados de um determinado usuário pelo ID
 
+    $resultado = mysqli_query($conexao, $sql) or die(mysqli_error($conexao));
+    /* Executamos a query (consulta) e, em caso de sucesso, guardamos o resultado em memória. Obs.: este resultado ainda não está pronto para ser usado diretamento na aplicação (ou seja, dentro do formulário/página HTML) */
+
+    return mysqli_fetch_assoc($resultado);
+    /*  Extraimos de dentro do resultado só oqw nos interessa: os dados do usuário selecionado, já estruturados como um ARRAY ASSOCIATIVO */
+} // Fim lerUmUsuario
