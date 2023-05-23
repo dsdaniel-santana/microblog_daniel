@@ -17,8 +17,8 @@ pare tudo (die e mostre erro) */
 if (!$conexao ){
     die(mysqli_connect_error($conexao));
 
-} else {
+} /* else {
     //Senão, deu tudo certo!
     echo "<p>Beleza, banco conectado!</p>"; 
 
-};
+}; */
