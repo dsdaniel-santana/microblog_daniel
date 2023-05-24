@@ -1,5 +1,8 @@
 <?php
+require_once "../inc/funcoes_sessao.php";
 require_once "../inc/funcoes-usuarios.php";
+
+verificaAcesso();
 
 /* Capturando o valor recebido pelo parâmetro
 id através da URL */

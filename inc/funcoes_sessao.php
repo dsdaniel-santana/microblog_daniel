@@ -23,4 +23,14 @@ function verificaAcesso(){
         //Pare completamente qualquer outra execução
         exit; //ou die()
     }
-}
+} // fim verficaAcesso
+
+function login($id, $nome, $tipo){
+    /*  Criação de variáveis de SESSÃO */
+    $_SESSION['id'] = $id;
+    $_SESSION['nome'] = $nome;
+    $_SESSION['tipo'] = $tipo;
+
+    /* As variáveis de sessão ficam dispóniveis para utlilização durante toda a duração da sessão, 
+    ou seja, enquanto o navegador não for fechado ou o usuário estiver logado. */
+};

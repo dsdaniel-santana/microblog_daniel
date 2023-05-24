@@ -68,7 +68,7 @@ function lerUmUsuario ($conexao, $id){
     /* Executamos a query (consulta) e, em caso de sucesso, guardamos o resultado em memória. Obs.: este resultado ainda não está pronto para ser usado diretamento na aplicação (ou seja, dentro do formulário/página HTML) */
 
     return mysqli_fetch_assoc($resultado);
-    /*  Extraimos de dentro do resultado só oqw nos interessa: os dados do usuário selecionado, já estruturados como um ARRAY ASSOCIATIVO */
+    /*  Extraimos de dentro do resultado só oque nos interessa: os dados do usuário selecionado, já estruturados como um ARRAY ASSOCIATIVO */
 } // Fim lerUmUsuario
 
 // usada em usuario-atualiza.php
@@ -79,3 +79,15 @@ function atualizaUsuario($conexao, $id, $nome, $email, $senha, $tipo){
 
     mysqli_query($conexao, $sql) or die(mysqli_error($conexao));
 } // fim atualizaUsuario
+
+// Usada em login.php
+function buscaUsuario ($conexao, $email){
+    
+    //Executando a consulta 
+    $sql = "SELECT * FROM usuarios WHERE email = '$email'";
+    $resultado = mysqli_query($conexao, $sql) or die(mysqli_error($conexao));
+    
+    //Retornando um array associativo com os dados (se houver)
+    return mysqli_fetch_assoc($resultado);
+
+};
