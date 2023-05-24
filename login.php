@@ -11,6 +11,11 @@ significa que o usuário não preencheu e-mail E senha. */
 if (isset($_GET["campos_obrigatorios"])) {
 	//Portantom exibiremos esta  mensagem:
 	$mensagem = "Você deve preencher email e senha";
+} elseif (isset ($_GET["dados_incorretos"]) ){
+	$mensagem = "DADOS INCORRETOS";
+
+}elseif (isset ($_GET["logout"]) ){
+	$mensagem = "Você Saiu do Sistema!";
 }
 ?>
 
@@ -70,7 +75,11 @@ if (isset($_GET["campos_obrigatorios"])) {
 				header("location:admin/index.php");
 				exit; //pare qualquer outro script
 			} else {
-				echo "NÃO Pode Entrar";
+				//echo "NÃO Pode Entrar";
+
+				//caso contrário, fique no login e avise o usuário
+				header("location:login.php?dados_incorretos");
+				exit;
 			}
 
 

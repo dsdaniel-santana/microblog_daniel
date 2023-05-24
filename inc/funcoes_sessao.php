@@ -33,4 +33,12 @@ function login($id, $nome, $tipo){
 
     /* As variáveis de sessão ficam dispóniveis para utlilização durante toda a duração da sessão, 
     ou seja, enquanto o navegador não for fechado ou o usuário estiver logado. */
-};
+}; //fim do login
+
+
+//usada em todas as páginas admin
+function logout (){
+    session_start();
+    session_destroy();
+    header("location:../login.php?logout");
+} //fim do logout

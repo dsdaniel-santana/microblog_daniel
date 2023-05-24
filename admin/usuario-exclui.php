@@ -2,6 +2,14 @@
 require_once "../inc/funcoes_sessao.php";
 require_once "../inc/funcoes-usuarios.php";
 
+//Se o usuário logado NÃO FOR ADMIN
+if ($_SESSION['tipo'] != "admin"){
+	//ENTÃO REDIRECIONE PARA NÃO AUTORIZADO
+	header("location:nao-autorizado.php");
+	exit;
+}
+
+
 verificaAcesso();
 
 /* Capturando o valor recebido pelo parâmetro
