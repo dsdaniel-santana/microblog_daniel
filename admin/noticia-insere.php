@@ -1,5 +1,32 @@
 <?php 
+require_once "../inc/funcoes-noticias.php";
 require_once "../inc/cabecalho-admin.php";
+
+if (isset($_POST['inserir'])){
+	$titulo = $_POST['titulo'];
+	$texto = $_POST['texto'];
+	$resumo = $_POST['resumo'];
+
+	//Pegando o ID do usuário logado na sessão
+	$usuarioID = $_SESSION['id'];
+	
+	/* Capturando dados do arquivo através do array superglobal $_FILES */
+	$imagem = $_FILES['imagem'];
+	/* echo "<pre>";
+	var_dump($imagem);
+	echo "</pre>"; */
+
+	//Executar a função de upload do ARQUIVO
+	upload($imagem);
+
+	//Inserir os dados no banco (ATENÇÃO AO NOME DA IMAGEM)
+	inserirNoticia($conexao, $titulo, $texto, $resumo, $imagem['name'], $usuarioID);
+
+	//Redirecionar para a lista de notícias cadastradas
+	header("location:noticias.php");
+}
+
+
 ?>
 
 
@@ -9,8 +36,9 @@ require_once "../inc/cabecalho-admin.php";
 		<h2 class="text-center">
 		Inserir nova notícia
 		</h2>
-				
-		<form class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir">            
+		
+		<!-- ATRIBUTO ENCTYPE VALENDO MULTIPART/FORM-DATA NECESSÁRIO  em formulários que receberão ARQUIVOS (imagens, documentos, pdfs, planilhas) para processamento. -->
+		<form enctype="multipart/form-data" class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir">            
 
 			<div class="mb-3">
                 <label class="form-label" for="titulo">Título:</label>
