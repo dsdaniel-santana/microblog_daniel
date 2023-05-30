@@ -39,7 +39,8 @@ function upload($arquivo)
 } // fim upload
 
 //Usada em noticias.php
-function lerNoticias($conexao, $idUsuarioLogado, $tipoUsuarioLogado){
+function lerNoticias($conexao, $idUsuarioLogado, $tipoUsuarioLogado)
+{
     if ($tipoUsuarioLogado == 'admin') {
         /* SQL do admin, pode carregar/ver tudo de todos */
         $sql = "SELECT noticias.id, noticias.titulo, noticias.data, usuarios.nome 
@@ -65,18 +66,19 @@ function lerNoticias($conexao, $idUsuarioLogado, $tipoUsuarioLogado){
 
     /* Retornamos a matriz de notícias */
     return $noticias;
-}// fim lerNoticias
+} // fim lerNoticias
 
 /* Usada em noticias.php e páginas da área pública */
-function formataData ($data){
+function formataData($data)
+{
     /* As funções abaixo recebem a data no formato  de sistema (banco de dados) e a formatam num modelo
     mais amigável (dia/mês/ano hora:minuto) */
     return date("d/m/Y H:i", strtotime($data));
-
 } //fim formataData
 
 /* Usada em noticia-atualiza.php */
-function lerUmaNoticia($conexao, $idNoticia, $idUsuarioLogado, $tipoUsuarioLogado){
+function lerUmaNoticia($conexao, $idNoticia, $idUsuarioLogado, $tipoUsuarioLogado)
+{
     if ($tipoUsuarioLogado == 'admin') {
         /* SQL do admin: carrega os dados de qualquer noticia */
         $sql = "SELECT * FROM noticias WHERE id = $idNoticia";
@@ -90,5 +92,26 @@ function lerUmaNoticia($conexao, $idNoticia, $idUsuarioLogado, $tipoUsuarioLogad
         or die(mysqli_error($conexao));
 
     return mysqli_fetch_assoc($resultado);
-
 } //fim lerUmaNoticia
+
+/* Usada em noticia-atualiza.php */
+function atualizarNoticia($conexao, $titulo, $texto, $resumo, $imagem, $idNoticia, $idUsuarioLogado, $tipoUsuarioLogado)
+{
+    if ($tipoUsuarioLogado == 'admin') {
+        /* SQL do admin:pode atualizar qualquer notícia */
+        $sql = "UPDATE noticias SET titulo = '$titulo', 
+        texto = '$texto', 
+        resumo = '$resumo', 
+        imagem = '$imagem' 
+        WHERE id = $idNoticia";
+    } else {
+        /*SQL do editor: pode atualizar somente sua própria noticia  */
+        $sql = "UPDATE noticias SET 
+        titulo = '$titulo', 
+        texto = '$texto', 
+        resumo = '$resumo', 
+        imagem = '$imagem' 
+        WHERE id = $idNoticia AND usuario_id = $idUsuarioLogado";
+    }
+    mysqli_query($conexao, $sql) or die (mysqli_error($conexao));
+} //fim atualizarNoticia
