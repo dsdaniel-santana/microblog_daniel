@@ -113,23 +113,82 @@ function atualizarNoticia($conexao, $titulo, $texto, $resumo, $imagem, $idNotici
         imagem = '$imagem' 
         WHERE id = $idNoticia AND usuario_id = $idUsuarioLogado";
     }
-    mysqli_query($conexao, $sql) or die (mysqli_error($conexao));
+    mysqli_query($conexao, $sql) or die(mysqli_error($conexao));
 } //fim atualizarNoticia
 
 /* Usada em noticia-exclui.php */
-function excluirNoticia($conexao, $idNoticia, $idUsuarioLogado, $tipoUsuarioLogado){
+function excluirNoticia($conexao, $idNoticia, $idUsuarioLogado, $tipoUsuarioLogado)
+{
     /* SQL do admin: pode apagar qualquer notícia pelo id */
-    if ($tipoUsuarioLogado == 'admin'){
+    if ($tipoUsuarioLogado == 'admin') {
         $sql = "DELETE FROM noticias WHERE id = $idNoticia";
-
     } else {
         /* SQL do editor: pode apagar SOMENTE suas prórias notícias
         (pelo id da notícia e pelo seu próprio id) */
         $sql = "DELETE FROM noticias WHERE id = $idNoticia
-        AND usuario_id = $idUsuarioLogado"; 
-
+        AND usuario_id = $idUsuarioLogado";
     }
 
-    mysqli_query($conexao, $sql) or die (mysqli_error($conexao));
-
+    mysqli_query($conexao, $sql) or die(mysqli_error($conexao));
 } // fim excluirNoticia
+
+/* Funções usadas nas páginas da área pública */
+
+/* usada em index.php */
+function lerTodasAsnoticias($conexao)
+{
+
+    $sql = "SELECT id, data, titulo, resumo, imagem FROM noticias ORDER BY data DESC";
+
+    $resultado = mysqli_query($conexao, $sql)
+        or die(mysqli_error($conexao));
+
+    $noticias = [];
+
+    while ($noticia = mysqli_fetch_assoc($resultado)) {
+
+        array_push($noticias, $noticia);
+    }
+
+    return $noticias;
+} // fim lerTodasAsnoticias
+
+/* Usada em noticia.php */
+function lerDetalhes($conexao, $id)
+{
+    $sql = "SELECT 
+    noticias.id, 
+    noticias.titulo, 
+    noticias.data, 
+    noticias.imagem, 
+    noticias.texto, 
+    usuarios.nome
+    FROM noticias INNER JOIN usuarios ON noticias.usuario_id = usuarios.id
+    WHERE noticias.id = $id";
+
+    $resultado = mysqli_query($conexao, $sql)
+        or die(mysqli_error($conexao));
+
+    return mysqli_fetch_assoc($resultado);
+} //fim lerDetalhes
+
+/* Usada em resultados.php */
+function busca($conexao, $termo)
+{
+    $sql = "SELECT * FROM noticias WHERE 
+    titulo LIKE '%$termo%' OR 
+    texto LIKE '%$termo%' OR
+    RESUMO LIKE '%$termo%' 
+    ORDER BY data DESC";
+
+    $resultado = mysqli_query($conexao, $sql)
+        or die(mysqli_error($conexao));
+
+    $noticias = [];
+
+    while ($noticia = mysqli_fetch_assoc($resultado)) {
+        array_push($noticias, $noticia);
+    }
+
+    return $noticias;
+} //fim da busca
