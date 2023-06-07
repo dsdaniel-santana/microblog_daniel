@@ -24,7 +24,7 @@ $noticias = lerTodasAsnoticias ($conexao);
                     <img src="imagem/<?=$noticia['imagem']?>" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h3 class="fs-4 card-title"><?=$noticia['titulo']?></h3>
-                        <p class="card-text"><?=$noticia['resumo']?></p>
+                        <p class="card-text"> <?=$noticia['resumo']?></p>
                     </div>
                 </a>
             </article>
